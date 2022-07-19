@@ -15,11 +15,10 @@ def main():
             else:
                 dictionary[word] += 1
     
-    for key in dictionary:
-        pairs = [-dictionary[key], key]
+    pairs = [(dictionary[key], key) for key in dictionary]
 
     for pair in sorted(pairs):
-        count, word = pair
+        c, word = pair
         print(word)
 
 
