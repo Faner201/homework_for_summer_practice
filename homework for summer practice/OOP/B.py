@@ -1,4 +1,3 @@
-from types import coroutine
 from math import sqrt
 
 
@@ -27,6 +26,16 @@ class Vector2:
         return Vector2(coordinate_x, coordinate_y)
 
 
+    def __rmul__(self, number):
+        return self.__mul__(number)
+
+
+    def __imul__(self, number):
+        self.x *= number
+        self.y *= number
+        return self
+
+
     def __str__(self):
         return 'Vector2({}, {})'.format(self.x, self.y)
 
@@ -37,6 +46,10 @@ class Vector2:
         else:
             return False
 
+    
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
     def __abs__(self):
         return sqrt(self.x * self.x + self.y * self.y)
@@ -44,10 +57,16 @@ class Vector2:
 
 def main():
 
-    vec1 = Vector2(3, 5)
-    vec2 = Vector2(3, 5)
-    vec_sum = vec1 == vec2
-    print(vec_sum)
+    vec1 = Vector2(7, 6)
+    vec2 = Vector2(-4, 2)
+    print(vec1 + vec2)
+    print(vec1 - vec2)
+    print(vec1 * 2)
+    print(7 * vec2)
+    vec2 *= 5
+    print(vec1 == vec2)
+    print(vec1 != vec2)
+    print(abs(vec1))
 
 
 main()

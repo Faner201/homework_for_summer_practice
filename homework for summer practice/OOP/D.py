@@ -1,6 +1,6 @@
 class Polynomial:
     def __init__(self, numbers) -> None:
-        self.numbers = numbers
+        self.numbers = numbers.copy()
 
     
     def __call__(self, x):

@@ -1,0 +1,36 @@
+QWidget {
+    color: white;
+    background-color: #121212;
+    font-family: Rubik;
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+QPushButton#btn
+,#btn_backspace
+,#btn_del
+,#btn_div
+,#btn_mul
+,#btn_sub
+,#btn_plus
+,#button{
+    color:#f90;
+}
+
+QPushButton#btn_equally {
+    color: #f90;
+    border-radius: 20px;
+}
+
+QPushButton {
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton:hover {
+    background-color: #666;
+}
+
+QPushButton:pressed {
+    background-color: #888;
+}

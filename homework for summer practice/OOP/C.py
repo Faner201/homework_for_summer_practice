@@ -27,7 +27,6 @@ class Thing(BaseObject):
 def main():
     object = Block(1, 2, 5)
     object.shatter()
-
     print(object.get_coordinates())
 
 
