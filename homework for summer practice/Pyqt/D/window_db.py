@@ -3,6 +3,9 @@ from PySide6.QtWidgets import QMainWindow, QTableWidgetItem, QGridLayout
 from PySide6.QtCore import Qt
 from designer.design import Ui_MainWindow
 
+sqlite_connection = sqlite3.connect(r'/Users/fanfurick/Documents/code/homework_for_summer_practice/Pyqt/D/films.db')
+cursor = sqlite_connection.cursor()
+
 
 tootlips = [
     "Название фильма", 
@@ -25,8 +28,6 @@ class WindowDB(QMainWindow):
 
     def search_name(self) -> None:
         if self.ui.ln_search_title.text():
-            sqlite_connection = sqlite3.connect(r'/Users/fanfurick/Documents/code/homework for summer practice/Pyqt/D/films.db')
-            cursor = sqlite_connection.cursor()
             numbers = []
             text = self.ui.ln_search_title.text()
             cursor.execute("select * from Films where title like ?", (text+'%',))
@@ -35,8 +36,6 @@ class WindowDB(QMainWindow):
                 if equest:
                     numbers.append(equest[1:])
                 else:
-                    cursor.close()
-                    sqlite_connection.close()
                     break
             self.processing_db(numbers)
 
@@ -63,11 +62,9 @@ class WindowDB(QMainWindow):
 
     def search_gread(self) -> None:
         if self.ui.ln_serch_cat.text():
-            sqlite_connection = sqlite3.connect(r'/Users/fanfurick/Documents/code/homework for summer practice/Pyqt/D/films.db')
-            cursor = sqlite_connection.cursor()
-            text = self.ui.ln_serch_cat.text()
+            text = self.ui.ln_serch_cat.text().lower()
             cursor.execute(f"select * from genres where title = '{text}'")
-            equast_text = cursor.fetchall()
+            equast_text = cursor.fetchone()
             cursor.execute(f"select * from Films where genre = '{equast_text[0]}'")
             numbers = []
             while True:
@@ -75,23 +72,21 @@ class WindowDB(QMainWindow):
                 if equast_id:
                     numbers.append(equast_id[1:])
                 else:
-                    cursor.close()
-                    sqlite_connection.close()
                     break
             self.processing_db(numbers)
 
 
     def adding_movie(self) -> None:
         if self.ui.ln_create_film.text() and self.ui.date.text() and self.ui.ln_create_cat.text() and self.ui.duration.text():
-            sqlite_connection = sqlite3.connect(r'/Users/fanfurick/Documents/code/homework for summer practice/Pyqt/D/films.db')
-            cursor = sqlite_connection.cursor()
             name_text = self.ui.ln_create_film.text()
             date_text = self.ui.date.text()
-            category_text = self.ui.ln_create_cat.text()
+            category_text = self.ui.ln_create_cat.text().lower()
             duration_text = self.ui.duration.text()
             equest_category = cursor.execute(f"select * from genres where title = '{category_text}'").fetchone()
-            equest_add = cursor.execute(f"insert into Films values('{name_text}', '{date_text}', '{equest_category[0]}', '{duration_text}')")
+            cursor.execute(f"insert into Films (title, year, genre, duration) values('{name_text}', '{date_text}', '{equest_category[0]}', '{duration_text}')")
             sqlite_connection.commit()
-            cursor.close()
-            sqlite_connection.close()
-            self.processing_db(equest_add[1:])
+            cursor.execute(f"select * from Films where title = '{name_text}'")
+            equest_add = cursor.fetchone()
+            number = []
+            number.append(equest_add[1:])
+            self.processing_db(number)
