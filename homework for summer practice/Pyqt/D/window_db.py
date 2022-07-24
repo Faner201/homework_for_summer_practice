@@ -28,16 +28,20 @@ class WindowDB(QMainWindow):
 
     def search_name(self) -> None:
         if self.ui.ln_search_title.text():
-            numbers = []
             text = self.ui.ln_search_title.text()
             cursor.execute("select * from Films where title like ?", (text+'%',))
-            while True:
+            self.processing_db(self.search())
+
+
+    def search(self):
+        numbers = []
+        while True:
                 equest = cursor.fetchone()
                 if equest:
                     numbers.append(equest[1:])
                 else:
                     break
-            self.processing_db(numbers)
+        return numbers
 
 
     def processing_db(self, numbers) -> None:
@@ -66,14 +70,7 @@ class WindowDB(QMainWindow):
             cursor.execute(f"select * from genres where title = '{text}'")
             equast_text = cursor.fetchone()
             cursor.execute(f"select * from Films where genre = '{equast_text[0]}'")
-            numbers = []
-            while True:
-                equast_id = cursor.fetchone()
-                if equast_id:
-                    numbers.append(equast_id[1:])
-                else:
-                    break
-            self.processing_db(numbers)
+            self.processing_db(self.search())
 
 
     def adding_movie(self) -> None:

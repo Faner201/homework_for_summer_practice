@@ -4,7 +4,7 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+    QPalette, QPixmap, QRadialGradient, QTransform, QShortcut)
 from PySide6.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 import designer.files_rc
@@ -275,6 +275,10 @@ class Ui_Form(object):
 #if QT_CONFIG(shortcut)
         self.btn_point.setShortcut(QCoreApplication.translate("Form", u".", None))
 #endif // QT_CONFIG(shortcut)
+
+        for sc in (','):
+                QShortcut(sc, self.btn_point). activated.connect(self.btn_point.animateClick)
+
         self.btn_1.setText(QCoreApplication.translate("Form", u"1", None))
         self.btn_5.setText(QCoreApplication.translate("Form", u"5", None))
 #if QT_CONFIG(shortcut)
@@ -288,6 +292,11 @@ class Ui_Form(object):
 #if QT_CONFIG(shortcut)
         self.btn_equally.setShortcut(QCoreApplication.translate("Form", u"=", None))
 #endif // QT_CONFIG(shortcut)
+
+        for sc in ('Enter', 'Return'):
+                QShortcut(sc, self.btn_equally). activated.connect(self.btn_equally.animateClick)
+
+
         self.btn_3.setText(QCoreApplication.translate("Form", u"3", None))
 #if QT_CONFIG(shortcut)
         self.btn_3.setShortcut(QCoreApplication.translate("Form", u"3", None))
